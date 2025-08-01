@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigiHealth Card</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .language-selector {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgb(6 6 6 / 30%);
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 15px 10px;
+            text-align: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .nav-tab.active {
+            background: white;
+            color: #4CAF50;
+            border-bottom: 2px solid #4CAF50;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.3s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-left: 4px solid #4CAF50;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        .btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #45a049;
+        }
+
+        .btn-danger {
+            background: #f44336;
+        }
+
+        .btn-danger:hover {
+            background: #da190b;
+        }
+
+        .record-item, .medication-item, .reminder-item {
+            background: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #4CAF50;
+            position: relative;
+        }
+
+        .record-item h4, .medication-item h4, .reminder-item h4 {
+            color: #4CAF50;
+            margin-bottom: 5px;
+        }
+
+        .record-item p, .medication-item p, .reminder-item p {
+            margin: 3px 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #f44336;
+            color: white;
+            border: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-online {
+            background: #4CAF50;
+        }
+
+        .status-offline {
+            background: #f44336;
+        }
+
+        .emergency-card {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            border: none;
+        }
+
+        .emergency-info {
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+        }
+
+        .qr-code {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transform: translateX(400px);
+            transition: transform 0.3s;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .reminder-badge {
+            background: #ff4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                max-width: 100%;
+            }
+            
+            .nav-tab {
+                font-size: 11px;
+                padding: 12px 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <select class="language-selector" id="languageSelector">
+                <option value="en">English</option>
+                <option value="hi">हिंदी</option>
+                <option value="te">తెలుగు</option>
+            </select>
+            <h1 id="appTitle">DigiHealth Card</h1>
+            <p id="appSubtitle">Your Personal Medical Records</p>
+            <div>
+                <span class="status-indicator" id="statusIndicator"></span>
+                <span id="statusText">Offline Mode</span>
+            </div>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('profile')" id="profileTab">Profile</button>
+            <button class="nav-tab" onclick="showTab('records')" id="recordsTab">Records</button>
+            <button class="nav-tab" onclick="showTab('medications')" id="medicationsTab">
+                Medications
+                <span class="reminder-badge" id="medicationBadge" style="display: none;">0</span>
+            </button>
+            <button class="nav-tab" onclick="showTab('reminders')" id="remindersTab">
+                Reminders
+                <span class="reminder-badge" id="reminderBadge" style="display: none;">0</span>
+            </button>
+        </div>
+
+        <!-- Profile Tab -->
+        <div id="profile" class="tab-content active">
+            <div class="card">
+                <h3 id="profileTitle">Personal Information</h3>
+                <div class="form-group">
+                    <label id="nameLabel">Full Name</label>
+                    <input type="text" id="patientName" placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label id="ageLabel">Age</label>
+                    <input type="number" id="patientAge" placeholder="Enter your age">
+                </div>
+                <div class="form-group">
+                    <label id="bloodGroupLabel">Blood Group</label>
+                    <select id="bloodGroup">
+                        <option value="">Select Blood Group</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label id="phoneLabel">Phone Number</label>
+                    <input type="tel" id="phoneNumber" placeholder="Enter phone number">
+                </div>
+                <div class="form-group">
+                    <label id="emergencyContactLabel">Emergency Contact</label>
+                    <input type="tel" id="emergencyContact" placeholder="Emergency contact number">
+                </div>
+                <div class="form-group">
+                    <label id="allergiesLabel">Known Allergies</label>
+                    <textarea id="allergies" placeholder="List any known allergies" rows="3"></textarea>
+                </div>
+                <button class="btn" onclick="saveProfile()" id="saveProfileBtn">Save Profile</button>
+            </div>
+
+            <div class="card emergency-card">
+                <h3 id="emergencyTitle">Emergency Information</h3>
+                <div class="emergency-info" id="emergencyInfo">
+                    <strong id="emergencyInfoText">Complete your profile to display emergency information</strong>
+                </div>
+            </div>
+
+            <div class="qr-code">
+                <h4 id="qrTitle">Share Medical Info</h4>
+                <div id="qrCode">📱 QR Code will appear here</div>
+                <button class="btn" onclick="generateQR()" id="generateQRBtn">Generate QR Code</button>
+            </div>
+        </div>
+
+        <!-- Medical Records Tab -->
+        <div id="records" class="tab-content">
+            <div class="card">
+                <h3 id="addRecordTitle">Add Medical Record</h3>
+                <div class="form-group">
+                    <label id="recordDateLabel">Date</label>
+                    <input type="date" id="recordDate">
+                </div>
+                <div class="form-group">
+                    <label id="recordTypeLabel">Type</label>
+                    <select id="recordType">
+                        <option value="checkup">Regular Checkup</option>
+                        <option value="diagnosis">Diagnosis</option>
+                        <option value="treatment">Treatment</option>
+                        <option value="lab">Lab Results</option>
+                        <option value="vaccination">Vaccination</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label id="doctorNameLabel">Doctor/Hospital</label>
+                    <input type="text" id="doctorName" placeholder="Doctor or hospital name">
+                </div>
+                <div class="form-group">
+                    <label id="recordNotesLabel">Notes/Diagnosis</label>
+                    <textarea id="recordNotes" placeholder="Detailed notes about the visit" rows="4"></textarea>
+                </div>
+                <button class="btn" onclick="addRecord()" id="addRecordBtn">Add Record</button>
+            </div>
+
+            <div id="recordsList">
+                <h3 id="recordsListTitle">Medical History</h3>
+                <div id="recordsContainer"></div>
+            </div>
+        </div>
+
+        <!-- Medications Tab -->
+        <div id="medications" class="tab-content">
+            <div class="card">
+                <h3 id="addMedicationTitle">Add Medication</h3>
+                <div class="form-group">
+                    <label id="medicationNameLabel">Medication Name</label>
+                    <input type="text" id="medicationName" placeholder="Medicine name">
+                </div>
+                <div class="form-group">
+                    <label id="dosageLabel">Dosage</label>
+                    <input type="text" id="dosage" placeholder="e.g., 1 tablet, 5ml">
+                </div>
+                <div class="form-group">
+                    <label id="frequencyLabel">Frequency</label>
+                    <select id="frequency">
+                        <option value="daily">Daily</option>
+                        <option value="twice-daily">Twice Daily</option>
+                        <option value="thrice-daily">Thrice Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="as-needed">As Needed</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label id="timingLabel">Timing</label>
+                    <input type="time" id="timing">
+                </div>
+                <div class="form-group">
+                    <label id="startDateLabel">Start Date</label>
+                    <input type="date" id="startDate">
+                </div>
+                <div class="form-group">
+                    <label id="endDateLabel">End Date (Optional)</label>
+                    <input type="date" id="endDate">
+                </div>
+                <button class="btn" onclick="addMedication()" id="addMedicationBtn">Add Medication</button>
+            </div>
+
+            <div id="medicationsList">
+                <h3 id="medicationsListTitle">Current Medications</h3>
+                <div id="medicationsContainer"></div>
+            </div>
+        </div>
+
+        <!-- Reminders Tab -->
+        <div id="reminders" class="tab-content">
+            <div class="card">
+                <h3 id="addReminderTitle">Add Reminder</h3>
+                <div class="form-group">
+                    <label id="reminderTypeLabel">Type</label>
+                    <select id="reminderType">
+                        <option value="appointment">Doctor Appointment</option>
+                        <option value="followup">Follow-up Visit</option>
+                        <option value="test">Medical Test</option>
+                        <option value="vaccination">Vaccination</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label id="reminderTitleLabel">Title</label>
+                    <input type="text" id="reminderTitle" placeholder="Reminder title">
+                </div>
+                <div class="form-group">
+                    <label id="reminderDateLabel">Date & Time</label>
+                    <input type="datetime-local" id="reminderDateTime">
+                </div>
+                <div class="form-group">
+                    <label id="reminderNotesLabel">Notes</label>
+                    <textarea id="reminderNotes" placeholder="Additional notes" rows="3"></textarea>
+                </div>
+                <button class="btn" onclick="addReminder()" id="addReminderBtn">Add Reminder</button>
+            </div>
+
+            <div id="remindersList">
+                <h3 id="remindersListTitle">Upcoming Reminders</h3>
+                <div id="remindersContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script>
+        // Language translations
+        const translations = {
+            en: {
+                appTitle: "DigiHealth Card",
+                appSubtitle: "Your Personal Medical Records",
+                profileTab: "Profile",
+                recordsTab: "Records", 
+                medicationsTab: "Medications",
+                remindersTab: "Reminders",
+                profileTitle: "Personal Information",
+                nameLabel: "Full Name",
+                ageLabel: "Age",
+                bloodGroupLabel: "Blood Group",
+                phoneLabel: "Phone Number",
+                emergencyContactLabel: "Emergency Contact",
+                allergiesLabel: "Known Allergies",
+                saveProfileBtn: "Save Profile",
+                emergencyTitle: "Emergency Information",
+                emergencyInfoText: "Complete your profile to display emergency information",
+                qrTitle: "Share Medical Info",
+                generateQRBtn: "Generate QR Code",
+                addRecordTitle: "Add Medical Record",
+                recordDateLabel: "Date",
+                recordTypeLabel: "Type",
+                doctorNameLabel: "Doctor/Hospital",
+                recordNotesLabel: "Notes/Diagnosis",
+                addRecordBtn: "Add Record",
+                recordsListTitle: "Medical History"
+            },
+            hi: {
+                appTitle: "डिजी हेल्थ कार्ड",
+                appSubtitle: "आपके व्यक्तिगत चिकित्सा रिकॉर्ड",
+                profileTab: "प्रोफाइल",
+                recordsTab: "रिकॉर्ड",
+                medicationsTab: "दवाएं",
+                remindersTab: "रिमाइंडर",
+                profileTitle: "व्यक्तिगत जानकारी",
+                nameLabel: "पूरा नाम",
+                ageLabel: "उम्र",
+                bloodGroupLabel: "रक्त समूह",
+                phoneLabel: "फोन नंबर",
+                emergencyContactLabel: "आपातकालीन संपर्क",
+                allergiesLabel: "ज्ञात एलर्जी",
+                saveProfileBtn: "प्रोफाइल सेव करें",
+                emergencyTitle: "आपातकालीन जानकारी",
+                emergencyInfoText: "आपातकालीन जानकारी प्रदर्शित करने के लिए अपनी प्रोफाइल पूरी करें",
+                qrTitle: "चिकित्सा जानकारी साझा करें",
+                generateQRBtn: "QR कोड जेनरेट करें"
+            },
+            te: {
+                appTitle: "డిజి హెల్త్ కార్డ్",
+                appSubtitle: "మీ వ్యక్తిగత వైద్య రికార్డులు",
+                profileTab: "ప్రొఫైల్",
+                recordsTab: "రికార్డులు",
+                medicationsTab: "మందులు",
+                remindersTab: "రిమైండర్లు",
+                profileTitle: "వ్యక్తిగత సమాచారం",
+                nameLabel: "పూర్తి పేరు",
+                ageLabel: "వయస్సు",
+                bloodGroupLabel: "బ్లడ్ గ్రూప్",
+                phoneLabel: "ఫోన్ నంబర్",
+                emergencyContactLabel: "అత్యవసర సంప్రదింపు",
+                allergiesLabel: "తెలిసిన అలెర్జీలు",
+                saveProfileBtn: "ప్రొఫైల్ సేవ్ చేయండి",
+                emergencyTitle: "అత్యవసర సమాచారం",
+                emergencyInfoText: "అత్యవసర సమాచారం ప్రదర్శించడానికి మీ ప్రొఫైల్ పూర్తి చేయండి",
+                qrTitle: "వైద్య సమాచారం భాగస్వామ్యం",
+                generateQRBtn: "QR కోడ్ జనరేట్ చేయండి"
+            }
+        };
+
+        // Global variables
+        let currentLanguage = 'en';
+        let patientData = JSON.parse(localStorage.getItem('patientData')) || {};
+        let medicalRecords = JSON.parse(localStorage.getItem('medicalRecords')) || [];
+        let medications = JSON.parse(localStorage.getItem('medications')) || [];
+        let reminders = JSON.parse(localStorage.getItem('reminders')) || [];
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPatientData();
+            displayRecords();
+            displayMedications();
+            displayReminders();
+            checkReminders();
+            updateConnectionStatus();
+            
+            // Set current date as default for new records
+            document.getElementById('recordDate').valueAsDate = new Date();
+            document.getElementById('startDate').valueAsDate = new Date();
+            
+            // Language selector change
+            document.getElementById('languageSelector').addEventListener('change', function() {
+                changeLanguage(this.value);
+            });
+
+            // Check for reminders every minute
+            setInterval(checkReminders, 60000);
+        });
+
+        // Language functions
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            const t = translations[lang];
+            
+            // Update all translatable elements
+            Object.keys(t).forEach(key => {
+                const element = document.getElementById(key);
+                if (element) {
+                    if (element.tagName === 'INPUT' && element.placeholder) {
+                        // Handle placeholder text
+                    } else {
+                        element.textContent = t[key];
+                    }
+                }
+            });
+        }
+
+        // Tab navigation
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Profile functions
+        function loadPatientData() {
+            if (patientData.name) {
+                document.getElementById('patientName').value = patientData.name || '';
+                document.getElementById('patientAge').value = patientData.age || '';
+                document.getElementById('bloodGroup').value = patientData.bloodGroup || '';
+                document.getElementById('phoneNumber').value = patientData.phone || '';
+                document.getElementById('emergencyContact').value = patientData.emergencyContact || '';
+                document.getElementById('allergies').value = patientData.allergies || '';
+                updateEmergencyInfo();
+            }
+        }
+
+        function saveProfile() {
+            patientData = {
+                name: document.getElementById('patientName').value,
+                age: document.getElementById('patientAge').value,
+                bloodGroup: document.getElementById('bloodGroup').value,
+                phone: document.getElementById('phoneNumber').value,
+                emergencyContact: document.getElementById('emergencyContact').value,
+                allergies: document.getElementById('allergies').value,
+                lastUpdated: new Date().toISOString()
+            };
+            
+            localStorage.setItem('patientData', JSON.stringify(patientData));
+            updateEmergencyInfo();
+            showNotification('Profile saved successfully!');
+        }
+
+        function updateEmergencyInfo() {
+            const emergencyInfo = document.getElementById('emergencyInfo');
+            if (patientData.name) {
+                emergencyInfo.innerHTML = `
+                    <strong>${patientData.name}</strong><br>
+                    Age: ${patientData.age} | Blood: ${patientData.bloodGroup}<br>
+                    Emergency: ${patientData.emergencyContact}<br>
+                    Allergies: ${patientData.allergies || 'None listed'}
+                `;
+            }
+        }
+
+        // Medical records functions
+        function addRecord() {
+            const record = {
+                id: Date.now(),
+                date: document.getElementById('recordDate').value,
+                type: document.getElementById('recordType').value,
+                doctor: document.getElementById('doctorName').value,
+                notes: document.getElementById('recordNotes').value,
+                timestamp: new Date().toISOString()
+            };
+
+            if (!record.date || !record.doctor || !record.notes) {
+                showNotification('Please fill all required fields', 'error');
+                return;
+            }
+
+            medicalRecords.unshift(record);
+            localStorage.setItem('medicalRecords', JSON.stringify(medicalRecords));
+            displayRecords();
+            
+            // Clear form
+            document.getElementById('recordDate').valueAsDate = new Date();
+            document.getElementById('doctorName').value = '';
+            document.getElementById('recordNotes').value = '';
+            
+            showNotification('Medical record added successfully!');
+        }
+
+        function displayRecords() {
+            const container = document.getElementById('recordsContainer');
+            if (medicalRecords.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666;">No medical records yet. Add your first record above.</p>';
+                return;
+            }
+
+            container.innerHTML = medicalRecords.map(record => `
+                <div class="record-item">
+                    <button class="delete-btn" onclick="deleteRecord(${record.id})">×</button>
+                    <h4>${record.type.charAt(0).toUpperCase() + record.type.slice(1)}</h4>
+                    <p><strong>Date:</strong> ${new Date(record.date).toLocaleDateString()}</p>
+                    <p><strong>Doctor/Hospital:</strong> ${record.doctor}</p>
+                    <p><strong>Notes:</strong> ${record.notes}</p>
+                </div>
+            `).join('');
+        }
+
+        function deleteRecord(id) {
+            medicalRecords = medicalRecords.filter(record => record.id !== id);
+            localStorage.setItem('medicalRecords', JSON.stringify(medicalRecords));
+            displayRecords();
+            showNotification('Record deleted');
+        }
+
+        // Medication functions  
+        function addMedication() {
+            const medication = {
+                id: Date.now(),
+                name: document.getElementById('medicationName').value,
+                dosage: document.getElementById('dosage').value,
+                frequency: document.getElementById('frequency').value,
+                timing: document.getElementById('timing').value,
+                startDate: document.getElementById('startDate').value,
+                endDate: document.getElementById('endDate').value,
+                active: true
+            };
+
+            if (!medication.name || !medication.dosage || !medication.timing) {
+                showNotification('Please fill all required fields', 'error');
+                return;
+            }
+
+            medications.push(medication);
+            localStorage.setItem('medications', JSON.stringify(medications));
+            displayMedications();
+            
+            // Clear form
+            document.getElementById('medicationName').value = '';
+            document.getElementById('dosage').value = '';
+            document.getElementById('timing').value = '';
+            document.getElementById('endDate').value = '';
+            
+            showNotification('Medication added successfully!');
+            updateMedicationBadges();
+        }
+
+        function displayMedications() {
+            const container = document.getElementById('medicationsContainer');
+            const activeMedications = medications.filter(med => med.active);
+            
+            if (activeMedications.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666;">No active medications. Add your medications above.</p>';
+                return;
+            }
+
+            container.innerHTML = activeMedications.map(medication => `
+                <div class="medication-item">
+                    <button class="delete-btn" onclick="deleteMedication(${medication.id})">×</button>
+                    <h4>${medication.name}</h4>
+                    <p><strong>Dosage:</strong> ${medication.dosage}</p>
+                    <p><strong>Frequency:</strong> ${medication.frequency}</p>
+                    <p><strong>Time:</strong> ${medication.timing}</p>
+                    <p><strong>Duration:</strong> ${new Date(medication.startDate).toLocaleDateString()} ${medication.endDate ? '- ' + new Date(medication.endDate).toLocaleDateString() : '(Ongoing)'}</p>
+                </div>
+            `).join('');
+        }
+
+        function deleteMedication(id) {
+            medications = medications.filter(med => med.id !== id);
+            localStorage.setItem('medications', JSON.stringify(medications));
+            displayMedications();
+            showNotification('Medication removed');
+            updateMedicationBadges();
+        }
+
+        // Reminder functions
+        function addReminder() {
+            const reminder = {
+                id: Date.now(),
+                type: document.getElementById('reminderType').value,
+                title: document.getElementById('reminderTitle').value,
+                datetime: document.getElementById('reminderDateTime').value,
+                notes: document.getElementById('reminderNotes').value,
+                completed: false
+            };
+
+            if (!reminder.title || !reminder.datetime) {
+                showNotification('Please fill all required fields', 'error');
+                return;
+            }
+
+            reminders.push(reminder);
+            localStorage.setItem('reminders', JSON.stringify(reminders));
+            displayReminders();
+            
+            // Clear form
+            document.getElementById('reminderTitle').value = '';
+            document.getElementById('reminderDateTime').value = '';
+            document.getElementById('reminderNotes').value = '';
+            
+            showNotification('Reminder added successfully!');
+            updateReminderBadges();
+        }
+
+        function displayReminders() {
+            const container = document.getElementById('remindersContainer');
+            const activeReminders = reminders.filter(rem => !rem.completed).sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
+            
+            if (activeReminders.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666;">No upcoming reminders. Add a reminder above.</p>';
+                return;
+            }
+
+            container.innerHTML = activeReminders.map(reminder => {
+                const reminderDate = new Date(reminder.datetime);
+                const now = new Date();
+                const isOverdue = reminderDate < now;
+                const timeUntil = Math.abs(reminderDate - now);
+                const daysUntil = Math.floor(timeUntil / (1000 * 60 * 60 * 24));
+                const hoursUntil = Math.floor((timeUntil % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                
+                let timeText = '';
+                if (isOverdue) {
+                    timeText = `<span style="color: #f44336;">Overdue by ${daysUntil} days</span>`;
+                } else if (daysUntil === 0) {
+                    timeText = `<span style="color: #ff9800;">Today in ${hoursUntil} hours</span>`;
+                } else {
+                    timeText = `In ${daysUntil} days`;
+                }
+
+                return `
+                    <div class="reminder-item" style="${isOverdue ? 'border-left-color: #f44336;' : ''}">
+                        <button class="delete-btn" onclick="deleteReminder(${reminder.id})">×</button>
+                        <h4>${reminder.title}</h4>
+                        <p><strong>Type:</strong> ${reminder.type.charAt(0).toUpperCase() + reminder.type.slice(1)}</p>
+                        <p><strong>Date & Time:</strong> ${reminderDate.toLocaleDateString()} at ${reminderDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</p>
+                        <p><strong>Status:</strong> ${timeText}</p>
+                        ${reminder.notes ? `<p><strong>Notes:</strong> ${reminder.notes}</p>` : ''}
+                        <button class="btn" onclick="markReminderComplete(${reminder.id})" style="margin-top: 10px; padding: 8px 16px; font-size: 14px;">Mark Complete</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function deleteReminder(id) {
+            reminders = reminders.filter(rem => rem.id !== id);
+            localStorage.setItem('reminders', JSON.stringify(reminders));
+            displayReminders();
+            showNotification('Reminder deleted');
+            updateReminderBadges();
+        }
+
+        function markReminderComplete(id) {
+            const reminder = reminders.find(rem => rem.id === id);
+            if (reminder) {
+                reminder.completed = true;
+                localStorage.setItem('reminders', JSON.stringify(reminders));
+                displayReminders();
+                showNotification('Reminder marked as complete!');
+                updateReminderBadges();
+            }
+        }
+
+        // Badge update functions
+        function updateMedicationBadges() {
+            const activeMeds = medications.filter(med => med.active).length;
+            const badge = document.getElementById('medicationBadge');
+            if (activeMeds > 0) {
+                badge.textContent = activeMeds;
+                badge.style.display = 'inline-flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        function updateReminderBadges() {
+            const activeReminders = reminders.filter(rem => !rem.completed).length;
+            const badge = document.getElementById('reminderBadge');
+            if (activeReminders > 0) {
+                badge.textContent = activeReminders;
+                badge.style.display = 'inline-flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        // Reminder checking system
+        function checkReminders() {
+            const now = new Date();
+            const upcomingReminders = reminders.filter(reminder => {
+                if (reminder.completed) return false;
+                const reminderTime = new Date(reminder.datetime);
+                const timeDiff = reminderTime - now;
+                // Notify 1 hour before and at the exact time
+                return timeDiff <= 3600000 && timeDiff > -300000; // 1 hour before to 5 minutes after
+            });
+
+            upcomingReminders.forEach(reminder => {
+                const reminderTime = new Date(reminder.datetime);
+                const timeDiff = reminderTime - now;
+                
+                if (timeDiff <= 0) {
+                    showNotification(`⏰ ${reminder.title} - It's time!`, 'reminder');
+                } else if (timeDiff <= 3600000) {
+                    const minutesUntil = Math.floor(timeDiff / (1000 * 60));
+                    showNotification(`⏰ ${reminder.title} in ${minutesUntil} minutes`, 'reminder');
+                }
+            });
+
+            updateMedicationBadges();
+            updateReminderBadges();
+        }
+
+        // QR Code generation
+        function generateQR() {
+            if (!patientData.name) {
+                showNotification('Please save your profile first!', 'error');
+                return;
+            }
+
+            const qrData = {
+                name: patientData.name,
+                age: patientData.age,
+                bloodGroup: patientData.bloodGroup,
+                phone: patientData.phone,
+                emergencyContact: patientData.emergencyContact,
+                allergies: patientData.allergies,
+                lastUpdated: new Date().toISOString()
+            };
+
+            // Create canvas element for QR code
+            const canvas = document.createElement('canvas');
+            const qr = new QRious({
+                element: canvas,
+                value: JSON.stringify(qrData),
+                size: 200,
+                background: 'white',
+                foreground: 'black',
+                level: 'M'
+            });
+
+            // Replace the QR code placeholder with the actual QR code
+            const qrContainer = document.getElementById('qrCode');
+            qrContainer.innerHTML = '';
+            qrContainer.appendChild(canvas);
+            
+            // Add a download button
+            const downloadBtn = document.createElement('button');
+            downloadBtn.textContent = 'Download QR Code';
+            downloadBtn.className = 'btn';
+            downloadBtn.style.marginTop = '10px';
+            downloadBtn.style.fontSize = '14px';
+            downloadBtn.onclick = function() {
+                const link = document.createElement('a');
+                link.download = `${patientData.name}-medical-qr.png`;
+                link.href = canvas.toDataURL();
+                link.click();
+            };
+            qrContainer.appendChild(downloadBtn);
+            
+            showNotification('QR Code generated! Medical professionals can scan this for your emergency info.');
+        }
+
+        // Connection status
+        function updateConnectionStatus() {
+            const isOnline = navigator.onLine;
+            const indicator = document.getElementById('statusIndicator');
+            const statusText = document.getElementById('statusText');
+            
+            if (isOnline) {
+                indicator.className = 'status-indicator status-online';
+                statusText.textContent = 'Online Mode';
+            } else {
+                indicator.className = 'status-indicator status-offline';
+                statusText.textContent = 'Offline Mode';
+            }
+        }
+
+        // Notification system
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification show ${type}`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Listen for online/offline events
+        window.addEventListener('online', updateConnectionStatus);
+        window.addEventListener('offline', updateConnectionStatus);
+
+        // Export/Import functionality (for backup)
+        function exportData() {
+            const allData = {
+                patientData,
+                medicalRecords,
+                medications,
+                reminders,
+                exportDate: new Date().toISOString()
+            };
+            
+            const dataStr = JSON.stringify(allData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `digihealth-backup-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            
+            showNotification('Data exported successfully!');
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    
+                    if (confirm('This will overwrite all existing data. Continue?')) {
+                        patientData = importedData.patientData || {};
+                        medicalRecords = importedData.medicalRecords || [];
+                        medications = importedData.medications || [];
+                        reminders = importedData.reminders || [];
+                        
+                        // Save to localStorage
+                        localStorage.setItem('patientData', JSON.stringify(patientData));
+                        localStorage.setItem('medicalRecords', JSON.stringify(medicalRecords));
+                        localStorage.setItem('medications', JSON.stringify(medications));
+                        localStorage.setItem('reminders', JSON.stringify(reminders));
+                        
+                        // Refresh displays
+                        loadPatientData();
+                        displayRecords();
+                        displayMedications();
+                        displayReminders();
+                        
+                        showNotification('Data imported successfully!');
+                    }
+                } catch (error) {
+                    showNotification('Error importing data. Please check the file format.', 'error');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // Add backup/restore buttons (could be added to settings)
+        function addBackupButtons() {
+            const profileTab = document.getElementById('profile');
+            const backupSection = document.createElement('div');
+            backupSection.className = 'card';
+            backupSection.innerHTML = `
+                <h3>Data Backup & Restore</h3>
+                <button class="btn" onclick="exportData()" style="margin-bottom: 10px;">Export Data</button>
+                <input type="file" id="importFile" accept=".json" onchange="importData(event)" style="display: none;">
+                <button class="btn" onclick="document.getElementById('importFile').click()">Import Data</button>
+                <p style="font-size: 12px; color: #666; margin-top: 10px;">
+                    Export your data for backup or import previously saved data. Keep your backup file safe!
+                </p>
+            `;
+            profileTab.appendChild(backupSection);
+        }
+
+        // Initialize backup functionality
+        setTimeout(addBackupButtons, 1000);
+
+        // Voice input support (basic)
+        function startVoiceInput(inputId) {
+            if ('webkitSpeechRecognition' in window) {
+                const recognition = new webkitSpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = currentLanguage === 'hi' ? 'hi-IN' : currentLanguage === 'te' ? 'te-IN' : 'en-US';
+                
+                recognition.onresult = function(event) {
+                    document.getElementById(inputId).value = event.results[0][0].transcript;
+                };
+                
+                recognition.onerror = function(event) {
+                    showNotification('Voice input failed. Please try again.', 'error');
+                };
+                
+                recognition.start();
+                showNotification('Listening... Speak now.');
+            } else {
+                showNotification('Voice input not supported in this browser.', 'error');
+            }
+        }
+
+        // PWA functionality
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            showInstallButton();
+        });
+
+        function showInstallButton() {
+            const installButton = document.createElement('button');
+            installButton.textContent = 'Install App';
+            installButton.className = 'btn';
+            installButton.onclick = installApp;
+            installButton.style.position = 'fixed';
+            installButton.style.bottom = '20px';
+            installButton.style.right = '20px';
+            installButton.style.zIndex = '1000';
+            document.body.appendChild(installButton);
+        }
+
+        function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((result) => {
+                    if (result.outcome === 'accepted') {
+                        showNotification('App installed successfully!');
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        }
+    </script>
+</body>
+</html>
