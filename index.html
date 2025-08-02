@@ -14,9 +14,9 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #a6acaf 0%, #f9e79f 100%);
             min-height: 100vh;
-            color: #333;
+            color: #2c3e50;
         }
 
         .container {
@@ -29,7 +29,7 @@
         }
 
         .header {
-            background: linear-gradient(135deg, #4CAF50, #45a049);
+            background: linear-gradient(135deg, #2c3e50, #34495e);
             color: white;
             padding: 20px;
             text-align: center;
@@ -50,7 +50,7 @@
             position: absolute;
             top: 15px;
             right: 15px;
-            background: rgb(6 6 6 / 30%);
+            background: rgba(9, 2, 45, 0.2);
             border: none;
             color: white;
             padding: 5px 10px;
@@ -63,24 +63,27 @@
             display: flex;
             background: #f8f9fa;
             border-bottom: 1px solid #ddd;
+            overflow-x: auto;
         }
 
         .nav-tab {
             flex: 1;
-            padding: 15px 10px;
+            min-width: 80px;
+            padding: 15px 8px;
             text-align: center;
             background: none;
             border: none;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 11px;
             color: #666;
             transition: all 0.3s;
+            white-space: nowrap;
         }
 
         .nav-tab.active {
             background: white;
-            color: #4CAF50;
-            border-bottom: 2px solid #4CAF50;
+            color: #2c3e50;
+            border-bottom: 2px solid #f1c40f;
         }
 
         .tab-content {
@@ -104,7 +107,7 @@
             padding: 20px;
             margin-bottom: 15px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border-left: 4px solid #4CAF50;
+            border-left: 4px solid #f1c40f;
         }
 
         .form-group {
@@ -113,9 +116,9 @@
 
         .form-group label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             font-weight: 600;
-            color: #555;
+            color: #2c3e50;
         }
 
         .form-group input, .form-group textarea, .form-group select {
@@ -125,53 +128,89 @@
             border-radius: 8px;
             font-size: 16px;
             transition: border-color 0.3s;
+            color: #2c3e50;
+            margin-bottom: 5px;
         }
 
         .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
             outline: none;
-            border-color: #4CAF50;
+            border-color: #f1c40f;
+            box-shadow: 0 0 0 3px rgba(241, 196, 15, 0.1);
         }
 
         .btn {
-            background: #4CAF50;
-            color: white;
+            background: linear-gradient(135deg, #f1c40f, #f39c12);
+            color: #2c3e50;
             border: none;
             padding: 12px 20px;
             border-radius: 8px;
             cursor: pointer;
             font-size: 16px;
+            font-weight: 600;
             width: 100%;
             margin-top: 10px;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(241, 196, 15, 0.3);
         }
 
         .btn:hover {
-            background: #45a049;
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(241, 196, 15, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            color: white;
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
         }
 
         .btn-danger {
-            background: #f44336;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
         }
 
-        .btn-danger:hover {
-            background: #da190b;
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 14px;
+            width: auto;
+            margin: 5px;
         }
 
-        .record-item, .medication-item, .reminder-item {
+        .btn-backup {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .btn-backup:hover {
+            background: linear-gradient(135deg, #2980b9, #21618c);
+        }
+
+        .record-item, .medication-item, .reminder-item, .missed-dose-item {
             background: #f8f9fa;
             padding: 15px;
             margin-bottom: 10px;
             border-radius: 8px;
-            border-left: 4px solid #4CAF50;
+            border-left: 4px solid #f1c40f;
             position: relative;
         }
 
-        .record-item h4, .medication-item h4, .reminder-item h4 {
-            color: #4CAF50;
+        .missed-dose-item {
+            border-left-color: #e74c3c;
+            background: #fdf2f2;
+        }
+
+        .record-item h4, .medication-item h4, .reminder-item h4, .missed-dose-item h4 {
+            color: #2c3e50;
             margin-bottom: 5px;
         }
 
-        .record-item p, .medication-item p, .reminder-item p {
+        .record-item p, .medication-item p, .reminder-item p, .missed-dose-item p {
             margin: 3px 0;
             font-size: 14px;
             color: #666;
@@ -181,7 +220,7 @@
             position: absolute;
             top: 10px;
             right: 10px;
-            background: #f44336;
+            background: #e74c3c;
             color: white;
             border: none;
             width: 25px;
@@ -200,15 +239,15 @@
         }
 
         .status-online {
-            background: #4CAF50;
+            background: #27ae60;
         }
 
         .status-offline {
-            background: #f44336;
+            background: #e74c3c;
         }
 
         .emergency-card {
-            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
             color: white;
             border: none;
         }
@@ -232,22 +271,39 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            background: #4CAF50;
-            color: white;
+            background: linear-gradient(135deg, #f1c40f, #f39c12);
+            color: #2c3e50;
             padding: 15px 20px;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             transform: translateX(400px);
             transition: transform 0.3s;
             z-index: 1000;
+            font-weight: 600;
+            max-width: 300px;
         }
 
         .notification.show {
             transform: translateX(0);
         }
 
+        .notification.error {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        .notification.reminder {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+        }
+
+        .notification.medication {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+
         .reminder-badge {
-            background: #ff4444;
+            background: #e74c3c;
             color: white;
             border-radius: 50%;
             width: 20px;
@@ -259,14 +315,79 @@
             margin-left: 5px;
         }
 
+        .medication-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .next-dose {
+            background: rgba(52, 152, 219, 0.1);
+            border: 1px solid #3498db;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 12px;
+            color: #2980b9;
+            margin-top: 5px;
+        }
+
+        .overdue {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid #e74c3c;
+            color: #c0392b;
+        }
+
+        .stats-card {
+            display: flex;
+            justify-content: space-around;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .backup-info {
+            font-size: 12px;
+            color: #666;
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border-left: 3px solid #3498db;
+        }
+
+        #importFile {
+            display: none;
+        }
+
         @media (max-width: 480px) {
             .container {
                 max-width: 100%;
             }
             
             .nav-tab {
-                font-size: 11px;
+                font-size: 10px;
                 padding: 12px 5px;
+            }
+
+            .medication-actions {
+                flex-direction: column;
             }
         }
     </style>
@@ -277,7 +398,8 @@
             <select class="language-selector" id="languageSelector">
                 <option value="en">English</option>
                 <option value="hi">हिंदी</option>
-                <option value="te">తెలుగు</option>
+                <option value="gu">ગુજરાતી</option>
+                <option value="te">తెలుগు</option>
             </select>
             <h1 id="appTitle">DigiHealth Card</h1>
             <p id="appSubtitle">Your Personal Medical Records</p>
@@ -297,6 +419,10 @@
             <button class="nav-tab" onclick="showTab('reminders')" id="remindersTab">
                 Reminders
                 <span class="reminder-badge" id="reminderBadge" style="display: none;">0</span>
+            </button>
+            <button class="nav-tab" onclick="showTab('missed-doses')" id="missedDosesTab">
+                Missed Doses
+                <span class="reminder-badge" id="missedDosesBadge" style="display: none;">0</span>
             </button>
         </div>
 
@@ -353,6 +479,21 @@
                 <div id="qrCode">📱 QR Code will appear here</div>
                 <button class="btn" onclick="generateQR()" id="generateQRBtn">Generate QR Code</button>
             </div>
+
+            <!-- Data Backup & Restore Section -->
+            <div class="card">
+                <h3>Data Backup & Restore</h3>
+                <button class="btn btn-backup" onclick="exportData()">📤 Export Data</button>
+                <input type="file" id="importFile" accept=".json" onchange="importData(event)">
+                <button class="btn btn-backup" onclick="document.getElementById('importFile').click()">📥 Import Data</button>
+                <div class="backup-info">
+                    <p><strong>💡 Backup Information:</strong></p>
+                    <p>• Export your data for backup or transfer to another device</p>
+                    <p>• Import previously saved data to restore your records</p>
+                    <p>• Keep your backup file safe and secure</p>
+                    <p>• Importing will overwrite all existing data</p>
+                </div>
+            </div>
         </div>
 
         <!-- Medical Records Tab -->
@@ -404,12 +545,24 @@
                 </div>
                 <div class="form-group">
                     <label id="frequencyLabel">Frequency</label>
-                    <select id="frequency">
+                    <select id="frequency" onchange="toggleCustomFrequency()">
                         <option value="daily">Daily</option>
                         <option value="twice-daily">Twice Daily</option>
                         <option value="thrice-daily">Thrice Daily</option>
                         <option value="weekly">Weekly</option>
-                        <option value="as-needed">As Needed</option>
+                        <option value="custom">Custom Reminder</option>
+                    </select>
+                </div>
+                <div class="form-group" id="customFrequencyGroup" style="display: none;">
+                    <label>Custom Frequency (Days)</label>
+                    <select id="customFrequencyDays">
+                        <option value="2">Every 2 Days</option>
+                        <option value="3">Every 3 Days</option>
+                        <option value="5">Every 5 Days</option>
+                        <option value="7">Every 7 Days</option>
+                        <option value="10">Every 10 Days</option>
+                        <option value="15">Every 15 Days</option>
+                        <option value="30">Every 30 Days</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -467,11 +620,36 @@
                 <div id="remindersContainer"></div>
             </div>
         </div>
+
+        <!-- Missed Doses Tab -->
+        <div id="missed-doses" class="tab-content">
+            <div class="stats-card">
+                <div class="stat-item">
+                    <div class="stat-value" id="totalMissedCount">0</div>
+                    <div class="stat-label">Total Missed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="thisWeekMissedCount">0</div>
+                    <div class="stat-label">This Week</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="adherenceRate">100%</div>
+                    <div class="stat-label">Adherence Rate</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Missed Doses History</h3>
+                <div id="missedDosesContainer"></div>
+            </div>
+        </div>
     </div>
 
     <div id="notification" class="notification"></div>
 
     <script>
+
+
         // Language translations
         const translations = {
             en: {
@@ -499,7 +677,8 @@
                 doctorNameLabel: "Doctor/Hospital",
                 recordNotesLabel: "Notes/Diagnosis",
                 addRecordBtn: "Add Record",
-                recordsListTitle: "Medical History"
+                recordsListTitle: "Medical History",
+                missedDosesTab:"Missed Doses"
             },
             hi: {
                 appTitle: "डिजी हेल्थ कार्ड",
@@ -519,7 +698,8 @@
                 emergencyTitle: "आपातकालीन जानकारी",
                 emergencyInfoText: "आपातकालीन जानकारी प्रदर्शित करने के लिए अपनी प्रोफाइल पूरी करें",
                 qrTitle: "चिकित्सा जानकारी साझा करें",
-                generateQRBtn: "QR कोड जेनरेट करें"
+                generateQRBtn: "QR कोड जेनरेट करें",
+                missedDosesTab: "छूटी हुई खुराक"
             },
             te: {
                 appTitle: "డిజి హెల్త్ కార్డ్",
@@ -539,37 +719,62 @@
                 emergencyTitle: "అత్యవసర సమాచారం",
                 emergencyInfoText: "అత్యవసర సమాచారం ప్రదర్శించడానికి మీ ప్రొఫైల్ పూర్తి చేయండి",
                 qrTitle: "వైద్య సమాచారం భాగస్వామ్యం",
-                generateQRBtn: "QR కోడ్ జనరేట్ చేయండి"
+                generateQRBtn: "QR కోడ్ జనరేట్ చేయండి",
+                missedDosesTab:"తప్పిపోయిన మోతాదులు"
+            },
+               gu: {
+                appTitle: "ડિજિ હેલ્થ કાર્ડ",
+                appSubtitle: "તમારા વ્યક્તિગત તબીબી રેકોર્ડ્સ",
+                profileTab: "પ્રોફાઇલ",
+                recordsTab: "રેકોર્ડ્સ",
+                medicationsTab: "દવાઓ",
+                remindersTab: "રિમાઇન્ડર્સ",
+                profileTitle: "વ્યક્તિગત માહિતી",
+                nameLabel: "પૂરું નામ",
+                ageLabel: "ઉંમર",
+                bloodGroupLabel: "બ્લડ ગ્રુપ",
+                phoneLabel: "ફોન નંબર",
+                emergencyContactLabel: "કટોકટી સંપર્ક",
+                allergiesLabel: "જાણીતી એલર્જી",
+                saveProfileBtn: "પ્રોફાઇલ સેવ કરો",
+                emergencyTitle: "કટોકટી માહિતી",
+                emergencyInfoText: "કટોકટી માહિતી દર્શાવવા માટે તમારી પ્રોફાઇલ પૂર્ણ કરો",
+                qrTitle: "તબીબી માહિતી શેર કરવી",
+                generateQRBtn: "QR કોડ જનરેટ કરો",
+                missedDosesTab: "ચૂકી ગયેલ ડોઝ"
             }
         };
-
-        // Global variables
-        let currentLanguage = 'en';
-        let patientData = JSON.parse(localStorage.getItem('patientData')) || {};
-        let medicalRecords = JSON.parse(localStorage.getItem('medicalRecords')) || [];
-        let medications = JSON.parse(localStorage.getItem('medications')) || [];
-        let reminders = JSON.parse(localStorage.getItem('reminders')) || [];
-
+                // Global variables
+                let currentLanguage = 'en';
+                let patientData = {};
+                let medicalRecords = [];
+                let medications = [];
+                let reminders = [];
+                let medicationReminders = [];
+                let missedDoses = [];
         // Initialize app
         document.addEventListener('DOMContentLoaded', function() {
-            loadPatientData();
+            loadAllData();
             displayRecords();
             displayMedications();
             displayReminders();
-            checkReminders();
+            displayMissedDoses();
+            checkMedicationReminders();
             updateConnectionStatus();
+            updateAllBadges();
             
-            // Set current date as default for new records
+            // Set current date as default
             document.getElementById('recordDate').valueAsDate = new Date();
             document.getElementById('startDate').valueAsDate = new Date();
-            
+
             // Language selector change
             document.getElementById('languageSelector').addEventListener('change', function() {
                 changeLanguage(this.value);
             });
 
-            // Check for reminders every minute
-            setInterval(checkReminders, 60000);
+            // Check for medication reminders every minute
+            setInterval(checkMedicationReminders, 60000);
+            setInterval(updateAllBadges, 30000);
         });
 
         // Language functions
@@ -590,9 +795,91 @@
             });
         }
 
+        // Data loading function
+        function loadAllData() {
+            patientData = JSON.parse(localStorage.getItem('patientData')) || {};
+            medicalRecords = JSON.parse(localStorage.getItem('medicalRecords')) || [];
+            medications = JSON.parse(localStorage.getItem('medications')) || [];
+            reminders = JSON.parse(localStorage.getItem('reminders')) || [];
+            medicationReminders = JSON.parse(localStorage.getItem('medicationReminders')) || [];
+            missedDoses = JSON.parse(localStorage.getItem('missedDoses')) || [];
+            loadPatientData();
+        }
+
+        // Export/Import functionality
+        function exportData() {
+            const allData = {
+                patientData,
+                medicalRecords,
+                medications,
+                reminders,
+                medicationReminders,
+                missedDoses,
+                exportDate: new Date().toISOString(),
+                version: "1.0"
+            };
+            
+            const dataStr = JSON.stringify(allData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `digihealth-backup-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            
+            URL.revokeObjectURL(url);
+            showNotification('✅ Data exported successfully!');
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    
+                    if (confirm('⚠️ This will overwrite all existing data. Are you sure you want to continue?')) {
+                        // Import all data
+                        patientData = importedData.patientData || {};
+                        medicalRecords = importedData.medicalRecords || [];
+                        medications = importedData.medications || [];
+                        reminders = importedData.reminders || [];
+                        medicationReminders = importedData.medicationReminders || [];
+                        missedDoses = importedData.missedDoses || [];
+                        
+                        // Save to localStorage
+                        localStorage.setItem('patientData', JSON.stringify(patientData));
+                        localStorage.setItem('medicalRecords', JSON.stringify(medicalRecords));
+                        localStorage.setItem('medications', JSON.stringify(medications));
+                        localStorage.setItem('reminders', JSON.stringify(reminders));
+                        localStorage.setItem('medicationReminders', JSON.stringify(medicationReminders));
+                        localStorage.setItem('missedDoses', JSON.stringify(missedDoses));
+                        
+                        // Refresh displays
+                        loadPatientData();
+                        displayRecords();
+                        displayMedications();
+                        displayReminders();
+                        displayMissedDoses();
+                        updateAllBadges();
+                        
+                        showNotification('✅ Data imported successfully!');
+                    }
+                } catch (error) {
+                    showNotification('❌ Error importing data. Please check the file format.', 'error');
+                }
+            };
+            reader.readAsText(file);
+            
+            // Reset file input
+            event.target.value = '';
+        }
+
         // Tab navigation
         function showTab(tabName) {
-            // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
             });
@@ -600,7 +887,6 @@
                 tab.classList.remove('active');
             });
             
-            // Show selected tab
             document.getElementById(tabName).classList.add('active');
             event.target.classList.add('active');
         }
@@ -699,17 +985,38 @@
             showNotification('Record deleted');
         }
 
-        // Medication functions  
+        function toggleCustomFrequency() {
+            const frequency = document.getElementById('frequency').value;
+            const customGroup = document.getElementById('customFrequencyGroup');
+            
+            if (frequency === 'custom') {
+                customGroup.style.display = 'block';
+            } else {
+                customGroup.style.display = 'none';
+            }
+        }
+
+        // Enhanced Medication functions with reminder system
         function addMedication() {
+            const frequency = document.getElementById('frequency').value;
+            let finalFrequency = frequency;
+            
+            if (frequency === 'custom') {
+                const customDays = document.getElementById('customFrequencyDays').value;
+                finalFrequency = `every-${customDays}-days`;
+            }
+
             const medication = {
                 id: Date.now(),
                 name: document.getElementById('medicationName').value,
                 dosage: document.getElementById('dosage').value,
-                frequency: document.getElementById('frequency').value,
+                frequency: finalFrequency,
                 timing: document.getElementById('timing').value,
                 startDate: document.getElementById('startDate').value,
                 endDate: document.getElementById('endDate').value,
-                active: true
+                active: true,
+                lastTaken: null,
+                status: 'pending'
             };
 
             if (!medication.name || !medication.dosage || !medication.timing) {
@@ -719,6 +1026,10 @@
 
             medications.push(medication);
             localStorage.setItem('medications', JSON.stringify(medications));
+            
+            // Create medication reminders
+            createMedicationReminders(medication);
+            
             displayMedications();
             
             // Clear form
@@ -726,9 +1037,140 @@
             document.getElementById('dosage').value = '';
             document.getElementById('timing').value = '';
             document.getElementById('endDate').value = '';
+            document.getElementById('frequency').value = 'daily';
+            toggleCustomFrequency();
             
             showNotification('Medication added successfully!');
-            updateMedicationBadges();
+            updateAllBadges();
+        }
+
+        function createMedicationReminders(medication) {
+            const today = new Date();
+            const startDate = new Date(medication.startDate);
+            const endDate = medication.endDate ? new Date(medication.endDate) : new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000); // Default 30 days
+
+            // Generate reminders based on frequency
+            const timeParts = medication.timing.split(':');
+            const hour = parseInt(timeParts[0]);
+            const minute = parseInt(timeParts[1]);
+
+            // Handle custom frequency
+            if (medication.frequency.startsWith('every-') && medication.frequency.endsWith('-days')) {
+                const dayInterval = parseInt(medication.frequency.split('-')[1]);
+                
+                for (let date = new Date(startDate); date <= endDate; date.setDate(date.getDate() + dayInterval)) {
+                    const reminderTime = new Date(date);
+                    reminderTime.setHours(hour, minute, 0, 0);
+                    
+                    if (reminderTime >= today) {
+                        medicationReminders.push({
+                            id: `med_${medication.id}_${reminderTime.getTime()}`,
+                            medicationId: medication.id,
+                            medicationName: medication.name,
+                            dosage: medication.dosage,
+                            scheduledTime: reminderTime.toISOString(),
+                            status: 'pending',
+                            createdAt: new Date().toISOString()
+                        });
+                    }
+                }
+            }
+            // Handle weekly frequency
+            else if (medication.frequency === 'weekly') {
+                for (let date = new Date(startDate); date <= endDate; date.setDate(date.getDate() + 7)) {
+                    const reminderTime = new Date(date);
+                    reminderTime.setHours(hour, minute, 0, 0);
+                    
+                    if (reminderTime >= today) {
+                        medicationReminders.push({
+                            id: `med_${medication.id}_${reminderTime.getTime()}`,
+                            medicationId: medication.id,
+                            medicationName: medication.name,
+                            dosage: medication.dosage,
+                            scheduledTime: reminderTime.toISOString(),
+                            status: 'pending',
+                            createdAt: new Date().toISOString()
+                        });
+                    }
+                }
+            }
+            // Handle daily frequency
+            else if (medication.frequency === 'daily') {
+                for (let date = new Date(startDate); date <= endDate; date.setDate(date.getDate() + 1)) {
+                    const reminderTime = new Date(date);
+                    reminderTime.setHours(hour, minute, 0, 0);
+                    
+                    if (reminderTime >= today) {
+                        medicationReminders.push({
+                            id: `med_${medication.id}_${reminderTime.getTime()}`,
+                            medicationId: medication.id,
+                            medicationName: medication.name,
+                            dosage: medication.dosage,
+                            scheduledTime: reminderTime.toISOString(),
+                            status: 'pending',
+                            createdAt: new Date().toISOString()
+                        });
+                    }
+                }
+            }
+            // Handle twice daily frequency
+            else if (medication.frequency === 'twice-daily') {
+                for (let date = new Date(startDate); date <= endDate; date.setDate(date.getDate() + 1)) {
+                    // Morning and evening doses
+                    const morningTime = new Date(date);
+                    morningTime.setHours(hour, minute, 0, 0);
+                    const eveningTime = new Date(date);
+                    eveningTime.setHours((hour + 12) % 24, minute, 0, 0);
+
+                    if (morningTime >= today) {
+                        medicationReminders.push({
+                            id: `med_${medication.id}_${morningTime.getTime()}`,
+                            medicationId: medication.id,
+                            medicationName: medication.name,
+                            dosage: medication.dosage,
+                            scheduledTime: morningTime.toISOString(),
+                            status: 'pending',
+                            createdAt: new Date().toISOString()
+                        });
+                    }
+                    if (eveningTime >= today) {
+                        medicationReminders.push({
+                            id: `med_${medication.id}_${eveningTime.getTime()}`,
+                            medicationId: medication.id,
+                            medicationName: medication.name,
+                            dosage: medication.dosage,
+                            scheduledTime: eveningTime.toISOString(),
+                            status: 'pending',
+                            createdAt: new Date().toISOString()
+                        });
+                    }
+                }
+            }
+            // Handle thrice daily frequency
+            else if (medication.frequency === 'thrice-daily') {
+                for (let date = new Date(startDate); date <= endDate; date.setDate(date.getDate() + 1)) {
+                    // Morning, afternoon, and evening doses
+                    const times = [hour, hour + 6, hour + 12];
+                    times.forEach(h => {
+                        const reminderTime = new Date(date);
+                        reminderTime.setHours(h % 24, minute, 0, 0);
+                        
+                        if (reminderTime >= today) {
+                            medicationReminders.push({
+                                id: `med_${medication.id}_${reminderTime.getTime()}`,
+                                medicationId: medication.id,
+                                medicationName: medication.name,
+                                dosage: medication.dosage,
+                                scheduledTime: reminderTime.toISOString(),
+                                status: 'pending',
+                                createdAt: new Date().toISOString()
+                            });
+                        }
+                    });
+                }
+            }
+
+            localStorage.setItem('medicationReminders', JSON.stringify(medicationReminders));
         }
 
         function displayMedications() {
@@ -740,24 +1182,276 @@
                 return;
             }
 
-            container.innerHTML = activeMedications.map(medication => `
-                <div class="medication-item">
-                    <button class="delete-btn" onclick="deleteMedication(${medication.id})">×</button>
-                    <h4>${medication.name}</h4>
-                    <p><strong>Dosage:</strong> ${medication.dosage}</p>
-                    <p><strong>Frequency:</strong> ${medication.frequency}</p>
-                    <p><strong>Time:</strong> ${medication.timing}</p>
-                    <p><strong>Duration:</strong> ${new Date(medication.startDate).toLocaleDateString()} ${medication.endDate ? '- ' + new Date(medication.endDate).toLocaleDateString() : '(Ongoing)'}</p>
-                </div>
-            `).join('');
+            container.innerHTML = activeMedications.map(medication => {
+                const nextReminder = getNextMedicationReminder(medication.id);
+                let nextDoseText = '';
+                let statusClass = '';
+                
+                // Format frequency display
+                let frequencyDisplay = medication.frequency;
+                if (medication.frequency.startsWith('every-') && medication.frequency.endsWith('-days')) {
+                    const days = medication.frequency.split('-')[1];
+                    frequencyDisplay = `Every ${days} Days`;
+                }
+
+                if (nextReminder) {
+                    const nextTime = new Date(nextReminder.scheduledTime);
+                    const now = new Date();
+                    const timeDiff = nextTime - now;
+
+                    if (timeDiff < 0) {
+                        nextDoseText = `<div class="next-dose overdue">⚠️ Overdue by ${Math.floor(Math.abs(timeDiff) / (1000 * 60))} minutes</div>`;
+                        statusClass = 'overdue';
+                    } else if (timeDiff < 3600000) { // Less than 1 hour
+                        nextDoseText = `<div class="next-dose">⏰ Next dose in ${Math.floor(timeDiff / (1000 * 60))} minutes</div>`;
+                    } else {
+                        nextDoseText = `<div class="next-dose">📅 Next dose: ${nextTime.toLocaleString()}</div>`;
+                    }
+                }
+
+                return `
+                    <div class="medication-item ${statusClass}">
+                        <button class="delete-btn" onclick="deleteMedication(${medication.id})">×</button>
+                        <h4>${medication.name}</h4>
+                        <p><strong>Dosage:</strong> ${medication.dosage}</p>
+                        <p><strong>Frequency:</strong> ${frequencyDisplay}</p>
+                        <p><strong>Time:</strong> ${medication.timing}</p>
+                        <p><strong>Duration:</strong> ${new Date(medication.startDate).toLocaleDateString()} ${medication.endDate ? '- ' + new Date(medication.endDate).toLocaleDateString() : '(Ongoing)'}</p>
+                        ${nextDoseText}
+                        <div class="medication-actions">
+                            <button class="btn btn-success btn-small" onclick="markMedicationTaken(${medication.id})">✅ Taken</button>
+                            <button class="btn btn-warning btn-small" onclick="snoozeMedication(${medication.id})">⏰ Snooze 15min</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function getNextMedicationReminder(medicationId) {
+            const now = new Date();
+            return medicationReminders
+                .filter(reminder => reminder.medicationId === medicationId && reminder.status === 'pending')
+                .sort((a, b) => new Date(a.scheduledTime) - new Date(b.scheduledTime))[0];
+        }
+
+        function markMedicationTaken(medicationId) {
+            const now = new Date();
+            const activeReminder = medicationReminders.find(reminder => 
+                reminder.medicationId === medicationId && 
+                reminder.status === 'pending' &&
+                Math.abs(new Date(reminder.scheduledTime) - now) < 2 * 60 * 60 * 1000 // Within 2 hours
+            );
+
+            if (activeReminder) {
+                activeReminder.status = 'taken';
+                activeReminder.takenAt = now.toISOString();
+                
+                // Update medication last taken
+                const medication = medications.find(med => med.id === medicationId);
+                if (medication) {
+                    medication.lastTaken = now.toISOString();
+                }
+
+                localStorage.setItem('medicationReminders', JSON.stringify(medicationReminders));
+                localStorage.setItem('medications', JSON.stringify(medications));
+                
+                displayMedications();
+                showNotification('✅ Medication marked as taken!', 'medication');
+                updateAllBadges();
+            } else {
+                showNotification('No pending dose found for this medication', 'error');
+            }
+        }
+
+        function snoozeMedication(medicationId) {
+            const now = new Date();
+            const activeReminder = medicationReminders.find(reminder => 
+                reminder.medicationId === medicationId && 
+                reminder.status === 'pending' &&
+                Math.abs(new Date(reminder.scheduledTime) - now) < 2 * 60 * 60 * 1000
+            );
+
+            if (activeReminder) {
+                // Create a snoozed reminder 15 minutes from now
+                const snoozeTime = new Date(now.getTime() + 15 * 60 * 1000);
+                
+                const snoozedReminder = {
+                    ...activeReminder,
+                    id: `${activeReminder.id}_snooze_${Date.now()}`,
+                    scheduledTime: snoozeTime.toISOString(),
+                    status: 'pending',
+                    originalTime: activeReminder.scheduledTime,
+                    snoozed: true
+                };
+
+                activeReminder.status = 'snoozed';
+                medicationReminders.push(snoozedReminder);
+                
+                localStorage.setItem('medicationReminders', JSON.stringify(medicationReminders));
+                displayMedications();
+                showNotification('⏰ Medication snoozed for 15 minutes', 'medication');
+            } else {
+                showNotification('No pending dose found for this medication', 'error');
+            }
         }
 
         function deleteMedication(id) {
             medications = medications.filter(med => med.id !== id);
+            medicationReminders = medicationReminders.filter(reminder => reminder.medicationId !== id);
+            
             localStorage.setItem('medications', JSON.stringify(medications));
+            localStorage.setItem('medicationReminders', JSON.stringify(medicationReminders));
+            
             displayMedications();
             showNotification('Medication removed');
-            updateMedicationBadges();
+            updateAllBadges();
+        }
+
+        // Medication reminder checking system
+        function checkMedicationReminders() {
+            const now = new Date();
+            
+            // Check for missed medications (30 minutes past due)
+            medicationReminders.forEach(reminder => {
+                if (reminder.status === 'pending') {
+                    const scheduledTime = new Date(reminder.scheduledTime);
+                    const timeDiff = now - scheduledTime;
+                    
+                    // Mark as missed if 30 minutes overdue
+                    if (timeDiff > .10 * 60 * 1000) {
+                        reminder.status = 'missed';
+                        reminder.missedAt = now.toISOString();
+                        
+                        // Add to missed doses
+                        const missedDose = {
+                            id: `missed_${Date.now()}`,
+                            medicationId: reminder.medicationId,
+                            medicationName: reminder.medicationName,
+                            dosage: reminder.dosage,
+                            scheduledTime: reminder.scheduledTime,
+                            missedAt: now.toISOString(),
+                            reason: 'Not taken within 30 minutes'
+                        };
+                        
+                        missedDoses.push(missedDose);
+                        localStorage.setItem('missedDoses', JSON.stringify(missedDoses));
+                        
+                        showNotification(`❌ Missed dose: ${reminder.medicationName}`, 'error');
+                    }
+                    // Show reminder notifications
+                    else if (timeDiff >= -5 * 60 * 1000 && timeDiff <= 5 * 60 * 1000) {
+                        // Within 5 minutes of scheduled time
+                        showMedicationNotification(reminder);
+                    }
+                }
+            });
+
+            localStorage.setItem('medicationReminders', JSON.stringify(medicationReminders));
+            displayMedications();
+            displayMissedDoses();
+            updateAllBadges();
+        }
+
+        function showMedicationNotification(reminder) {
+            const now = new Date();
+            const scheduledTime = new Date(reminder.scheduledTime);
+            const isOverdue = now > scheduledTime;
+            
+            let message;
+            if (isOverdue) {
+                const minutesLate = Math.floor((now - scheduledTime) / (1000 * 60));
+                message = `💊 ${reminder.medicationName} - ${minutesLate} minutes overdue!`;
+            } else {
+                message = `💊 Time for ${reminder.medicationName} - ${reminder.dosage}`;
+            }
+            
+            showNotification(message, 'medication');
+            
+            // Try to use browser notification API if available
+            if ('Notification' in window && Notification.permission === 'granted') {
+                new Notification('Medication Reminder', {
+                    body: message,
+                    icon: '💊',
+                    tag: reminder.id
+                });
+            }
+        }
+
+        // Missed Doses functions
+        function displayMissedDoses() {
+            const container = document.getElementById('missedDosesContainer');
+            
+            if (missedDoses.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666;">No missed doses recorded. Great job staying on track! 🎉</p>';
+            } else {
+                const sortedMissedDoses = missedDoses.sort((a, b) => new Date(b.missedAt) - new Date(a.missedAt));
+                
+                container.innerHTML = sortedMissedDoses.map(missed => `
+                    <div class="missed-dose-item">
+                        <button class="delete-btn" onclick="deleteMissedDose('${missed.id}')">×</button>
+                        <h4>❌ ${missed.medicationName}</h4>
+                        <p><strong>Dosage:</strong> ${missed.dosage}</p>
+                        <p><strong>Scheduled:</strong> ${new Date(missed.scheduledTime).toLocaleString()}</p>
+                        <p><strong>Missed:</strong> ${new Date(missed.missedAt).toLocaleString()}</p>
+                        <p><strong>Reason:</strong> ${missed.reason}</p>
+                        <div class="medication-actions">
+                            <button class="btn btn-success btn-small" onclick="markMissedAsTaken('${missed.id}')">Mark as Taken Late</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            updateMissedDoseStats();
+        }
+
+        function updateMissedDoseStats() {
+            const totalMissed = missedDoses.length;
+            const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+            const thisWeekMissed = missedDoses.filter(missed => new Date(missed.missedAt) > oneWeekAgo).length;
+            
+            // Calculate adherence rate
+            const totalScheduled = medicationReminders.filter(r => r.status !== 'pending').length;
+            const totalTaken = medicationReminders.filter(r => r.status === 'taken').length;
+            const adherenceRate = totalScheduled > 0 ? Math.round((totalTaken / totalScheduled) * 100) : 100;
+            
+            document.getElementById('totalMissedCount').textContent = totalMissed;
+            document.getElementById('thisWeekMissedCount').textContent = thisWeekMissed;
+            document.getElementById('adherenceRate').textContent = adherenceRate + '%';
+        }
+
+        function deleteMissedDose(id) {
+            missedDoses = missedDoses.filter(missed => missed.id !== id);
+            localStorage.setItem('missedDoses', JSON.stringify(missedDoses));
+            displayMissedDoses();
+            showNotification('Missed dose record deleted');
+            updateAllBadges();
+        }
+
+        function markMissedAsTaken(missedId) {
+            const missedDose = missedDoses.find(missed => missed.id === missedId);
+            if (missedDose) {
+                // Find the corresponding reminder and mark as taken
+                const reminder = medicationReminders.find(r => 
+                    r.medicationId === missedDose.medicationId && 
+                    r.scheduledTime === missedDose.scheduledTime
+                );
+                
+                if (reminder) {
+                    reminder.status = 'taken';
+                    reminder.takenAt = new Date().toISOString();
+                    reminder.takenLate = true;
+                }
+                
+                // Remove from missed doses
+                missedDoses = missedDoses.filter(missed => missed.id !== missedId);
+                
+                localStorage.setItem('medicationReminders', JSON.stringify(medicationReminders));
+                localStorage.setItem('missedDoses', JSON.stringify(missedDoses));
+                
+                displayMissedDoses();
+                showNotification('✅ Marked as taken late', 'medication');
+                updateAllBadges();
+            }
         }
 
         // Reminder functions
@@ -786,7 +1480,7 @@
             document.getElementById('reminderNotes').value = '';
             
             showNotification('Reminder added successfully!');
-            updateReminderBadges();
+            updateAllBadges();
         }
 
         function displayReminders() {
@@ -823,7 +1517,7 @@
                         <p><strong>Date & Time:</strong> ${reminderDate.toLocaleDateString()} at ${reminderDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</p>
                         <p><strong>Status:</strong> ${timeText}</p>
                         ${reminder.notes ? `<p><strong>Notes:</strong> ${reminder.notes}</p>` : ''}
-                        <button class="btn" onclick="markReminderComplete(${reminder.id})" style="margin-top: 10px; padding: 8px 16px; font-size: 14px;">Mark Complete</button>
+                        <button class="btn btn-small" onclick="markReminderComplete(${reminder.id})" style="margin-top: 10px;">Mark Complete</button>
                     </div>
                 `;
             }).join('');
@@ -834,7 +1528,7 @@
             localStorage.setItem('reminders', JSON.stringify(reminders));
             displayReminders();
             showNotification('Reminder deleted');
-            updateReminderBadges();
+            updateAllBadges();
         }
 
         function markReminderComplete(id) {
@@ -844,11 +1538,17 @@
                 localStorage.setItem('reminders', JSON.stringify(reminders));
                 displayReminders();
                 showNotification('Reminder marked as complete!');
-                updateReminderBadges();
+                updateAllBadges();
             }
         }
 
         // Badge update functions
+        function updateAllBadges() {
+            updateMedicationBadges();
+            updateReminderBadges();
+            updateMissedDosesBadges();
+        }
+
         function updateMedicationBadges() {
             const activeMeds = medications.filter(med => med.active).length;
             const badge = document.getElementById('medicationBadge');
@@ -871,31 +1571,14 @@
             }
         }
 
-        // Reminder checking system
-        function checkReminders() {
-            const now = new Date();
-            const upcomingReminders = reminders.filter(reminder => {
-                if (reminder.completed) return false;
-                const reminderTime = new Date(reminder.datetime);
-                const timeDiff = reminderTime - now;
-                // Notify 1 hour before and at the exact time
-                return timeDiff <= 3600000 && timeDiff > -300000; // 1 hour before to 5 minutes after
-            });
-
-            upcomingReminders.forEach(reminder => {
-                const reminderTime = new Date(reminder.datetime);
-                const timeDiff = reminderTime - now;
-                
-                if (timeDiff <= 0) {
-                    showNotification(`⏰ ${reminder.title} - It's time!`, 'reminder');
-                } else if (timeDiff <= 3600000) {
-                    const minutesUntil = Math.floor(timeDiff / (1000 * 60));
-                    showNotification(`⏰ ${reminder.title} in ${minutesUntil} minutes`, 'reminder');
-                }
-            });
-
-            updateMedicationBadges();
-            updateReminderBadges();
+        function updateMissedDosesBadges() {
+            const badge = document.getElementById('missedDosesBadge');
+            if (missedDoses.length > 0) {
+                badge.textContent = missedDoses.length;
+                badge.style.display = 'inline-flex';
+            } else {
+                badge.style.display = 'none';
+            }
         }
 
         // QR Code generation
@@ -915,7 +1598,6 @@
                 lastUpdated: new Date().toISOString()
             };
 
-            // Create canvas element for QR code
             const canvas = document.createElement('canvas');
             const qr = new QRious({
                 element: canvas,
@@ -926,12 +1608,10 @@
                 level: 'M'
             });
 
-            // Replace the QR code placeholder with the actual QR code
             const qrContainer = document.getElementById('qrCode');
             qrContainer.innerHTML = '';
             qrContainer.appendChild(canvas);
             
-            // Add a download button
             const downloadBtn = document.createElement('button');
             downloadBtn.textContent = 'Download QR Code';
             downloadBtn.className = 'btn';
@@ -971,145 +1651,17 @@
             
             setTimeout(() => {
                 notification.classList.remove('show');
-            }, 3000);
+            }, 4000);
+        }
+
+        // Request notification permission
+        if ('Notification' in window && Notification.permission === 'default') {
+            Notification.requestPermission();
         }
 
         // Listen for online/offline events
         window.addEventListener('online', updateConnectionStatus);
         window.addEventListener('offline', updateConnectionStatus);
-
-        // Export/Import functionality (for backup)
-        function exportData() {
-            const allData = {
-                patientData,
-                medicalRecords,
-                medications,
-                reminders,
-                exportDate: new Date().toISOString()
-            };
-            
-            const dataStr = JSON.stringify(allData, null, 2);
-            const dataBlob = new Blob([dataStr], {type: 'application/json'});
-            const url = URL.createObjectURL(dataBlob);
-            
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `digihealth-backup-${new Date().toISOString().split('T')[0]}.json`;
-            link.click();
-            
-            showNotification('Data exported successfully!');
-        }
-
-        function importData(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const importedData = JSON.parse(e.target.result);
-                    
-                    if (confirm('This will overwrite all existing data. Continue?')) {
-                        patientData = importedData.patientData || {};
-                        medicalRecords = importedData.medicalRecords || [];
-                        medications = importedData.medications || [];
-                        reminders = importedData.reminders || [];
-                        
-                        // Save to localStorage
-                        localStorage.setItem('patientData', JSON.stringify(patientData));
-                        localStorage.setItem('medicalRecords', JSON.stringify(medicalRecords));
-                        localStorage.setItem('medications', JSON.stringify(medications));
-                        localStorage.setItem('reminders', JSON.stringify(reminders));
-                        
-                        // Refresh displays
-                        loadPatientData();
-                        displayRecords();
-                        displayMedications();
-                        displayReminders();
-                        
-                        showNotification('Data imported successfully!');
-                    }
-                } catch (error) {
-                    showNotification('Error importing data. Please check the file format.', 'error');
-                }
-            };
-            reader.readAsText(file);
-        }
-
-        // Add backup/restore buttons (could be added to settings)
-        function addBackupButtons() {
-            const profileTab = document.getElementById('profile');
-            const backupSection = document.createElement('div');
-            backupSection.className = 'card';
-            backupSection.innerHTML = `
-                <h3>Data Backup & Restore</h3>
-                <button class="btn" onclick="exportData()" style="margin-bottom: 10px;">Export Data</button>
-                <input type="file" id="importFile" accept=".json" onchange="importData(event)" style="display: none;">
-                <button class="btn" onclick="document.getElementById('importFile').click()">Import Data</button>
-                <p style="font-size: 12px; color: #666; margin-top: 10px;">
-                    Export your data for backup or import previously saved data. Keep your backup file safe!
-                </p>
-            `;
-            profileTab.appendChild(backupSection);
-        }
-
-        // Initialize backup functionality
-        setTimeout(addBackupButtons, 1000);
-
-        // Voice input support (basic)
-        function startVoiceInput(inputId) {
-            if ('webkitSpeechRecognition' in window) {
-                const recognition = new webkitSpeechRecognition();
-                recognition.continuous = false;
-                recognition.interimResults = false;
-                recognition.lang = currentLanguage === 'hi' ? 'hi-IN' : currentLanguage === 'te' ? 'te-IN' : 'en-US';
-                
-                recognition.onresult = function(event) {
-                    document.getElementById(inputId).value = event.results[0][0].transcript;
-                };
-                
-                recognition.onerror = function(event) {
-                    showNotification('Voice input failed. Please try again.', 'error');
-                };
-                
-                recognition.start();
-                showNotification('Listening... Speak now.');
-            } else {
-                showNotification('Voice input not supported in this browser.', 'error');
-            }
-        }
-
-        // PWA functionality
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            showInstallButton();
-        });
-
-        function showInstallButton() {
-            const installButton = document.createElement('button');
-            installButton.textContent = 'Install App';
-            installButton.className = 'btn';
-            installButton.onclick = installApp;
-            installButton.style.position = 'fixed';
-            installButton.style.bottom = '20px';
-            installButton.style.right = '20px';
-            installButton.style.zIndex = '1000';
-            document.body.appendChild(installButton);
-        }
-
-        function installApp() {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((result) => {
-                    if (result.outcome === 'accepted') {
-                        showNotification('App installed successfully!');
-                    }
-                    deferredPrompt = null;
-                });
-            }
-        }
     </script>
 </body>
 </html>
