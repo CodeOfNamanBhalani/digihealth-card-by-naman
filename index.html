@@ -1318,7 +1318,7 @@
                     const timeDiff = now - scheduledTime;
                     
                     // Mark as missed if 30 minutes overdue
-                    if (timeDiff > .10 * 60 * 1000) {
+                    if (timeDiff > 30 * 60 * 1000) {
                         reminder.status = 'missed';
                         reminder.missedAt = now.toISOString();
                         
